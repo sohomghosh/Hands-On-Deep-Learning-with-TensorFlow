@@ -75,8 +75,9 @@ x_ = tf.reshape(x, [1, num_weeks, num_inputs])
 y_ = tf.placeholder("float", [None,num_classes])
 
 cell = tf.nn.rnn_cell.BasicRNNCell(state_size)
-outputs, states = tf.nn.dynamic_rnn(cell,x_,
-            dtype=tf.nn.dtypes.float32, initial_state=None)
+#outputs, states = tf.nn.dynamic_rnn(cell,x_, dtype=tf.nn.dtypes.float32, initial_state=None)
+
+outputs, states = tf.nn.dynamic_rnn(cell,x_,dtype=tf.float32, initial_state=None)
 
 W1 = tf.Variable(tf.truncated_normal([state_size,num_classes],
                           stddev=1./math.sqrt(num_inputs)))
@@ -92,8 +93,8 @@ sess.run(tf.initialize_all_variables())
 y = tf.nn.softmax(tf.matmul(h1, W1) + b1)
 
 # Climb on cross-entropy
-cross_entropy = tf.reduce_mean(
-     tf.nn.softmax_cross_entropy_with_logits(y + 1e-50, y_))
+#cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(y + 1e-50, y_))
+cross_entropy = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits = y + 1e-50, labels = y_))
 
 # How we train
 train_step = tf.train.GradientDescentOptimizer(0.01
