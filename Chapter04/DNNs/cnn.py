@@ -1,3 +1,6 @@
+import tensorflow.contrib.learn as learn
+from tensorflow.contrib.learn.python.learn.estimators import estimator
+
 # Access general TF functions
 import tensorflow as tf
 import tensorflow.contrib.layers as layers
